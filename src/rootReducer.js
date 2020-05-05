@@ -1,29 +1,39 @@
+import {calculateValue, calculateTotalItems} from "./helperFunction";
 const { products } = require('./data.json');
 
 // cart: Object.keys(products).map(key => ({ [key]: { "count": 0 } })),
+// cart: Object.keys(products).map(productId => ({ id: productId, "count": 0 })),
 
 const INITIAL_STATE = {
-  // cart: [],
-  cart: Object.keys(products).map(productId => ({ id: productId, "count": 0 })),
+  cartItems: {},
+  cartValue: 0,
+  totalItems: 0,
   inventory: products
 };
 
 function rootReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case "ADD_ITEM":
+      const cartCopy = { ...state.cartItems };
+      cartCopy[action.payload] = (cartCopy[action.payload] || 0) + 1
       return {
         ...state,
-        cart: state.cart.map(itemObj => {
-          if (itemObj.id === action.payload) {
-            return { id: itemObj.id, count: itemObj.count + 1 };
-          } else {
-            return { ...itemObj };
-          }
-        })
+        cartItems: cartCopy,
+        totalItems: calculateTotalItems(cartCopy),
+        cartValue: calculateValue(cartCopy, state.inventory)
+        // cartValue:0
       }
 
     case "REMOVE_ITEM":
-      return
+      const cartCopy2 = { ...state.cartItems };
+      cartCopy2[action.payload] = (cartCopy2[action.payload] - 1);
+      if (cartCopy2[action.payload] === 0) delete cartCopy2[action.payload];
+      return {
+        ...state,
+        cartItems: cartCopy2,
+        totalItems: calculateTotalItems(cartCopy2),
+        cartValue: calculateValue(cartCopy2, state.inventory)
+      }
     default:
       return state;
   }
@@ -31,6 +41,3 @@ function rootReducer(state = INITIAL_STATE, action) {
 
 export default rootReducer;
 
-// cart: [...state.cart, {id: action.payload, item: state.inventory[action.payload], itemCount: 1}]
-
-// {cart: [ {id1: {count: 1}}, {id2: {count: 3}} ], inventory: {keys: {}, keys: {}} }
