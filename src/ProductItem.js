@@ -2,6 +2,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import {addItem, removeItem } from "./actions.js";
 
+/**
+ * ProductItem: Displays individual product item 
+ *  - Parent: ProductList
+ */
 function ProductItem({ item, id }) {
   const dispatch = useDispatch();
 
@@ -21,8 +25,8 @@ function ProductItem({ item, id }) {
   return (
     <div>
       <img src={item.image_url} alt="cart_image" style={imageStyle}></img>
-      <h4>{item.name}</h4>
-      <p>{item.price}</p>
+      <h4>Item: {item.name}</h4>
+      <p>Price: ${item.price}</p>
       <p>{item.description}</p>
       <button className="cartButton" onClick={() => add(id)}>Add to Cart</button>
       <button className="cartButton" onClick={() => remove(id)}>Remove from Cart</button>

@@ -1,23 +1,26 @@
-
+/**
+ * Computes total cost of all items in cartItems obj in state
+ */
 function calculateValue(cartCopy, inventory) {
-  // console.log("this is cartCopy inside calcVal",cartCopy);
-  // console.log("this is inventory inside calcVal",inventory);
   let amount = 0;
   Object.keys(cartCopy).forEach((key) => {
-
-    amount = amount + inventory[key].price * cartCopy[key]
+    if (key in inventory) {
+      amount = amount + inventory[key].price * cartCopy[key]
+    }
   })
-
   return amount
 }
 
-function calculateTotalItems(cartCopy){
+/**
+ * Computes total number of all items in cartItems obj in state
+ */
+function calculateTotalItems(cartCopy) {
   let total = 0;
-Object.keys(cartCopy).forEach(key => {
+  Object.keys(cartCopy).forEach(key => {
     total = total + cartCopy[key]
-})
-return total
+  })
+  return total
 }
 
 
-export  {calculateValue, calculateTotalItems}
+export { calculateValue, calculateTotalItems }

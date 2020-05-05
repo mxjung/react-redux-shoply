@@ -3,7 +3,10 @@ import { useSelector } from "react-redux";
 import CartItem from "./CartItem"
 
 
-
+/**
+ * Cart: Component that shows all items inside cartItems state
+ *  - Parent Component: Routes
+ */
 function Cart() {
   const cart = useSelector(st => st);
 
@@ -13,7 +16,6 @@ function Cart() {
 
       <h2>There are {cart.totalItems} items in your Cart</h2>
       <div className="cartContainer">
-
         {Object.keys(cart.cartItems).map(id => (
           <CartItem item={cart.inventory[id]} count={cart.cartItems[id]} id={id} />
         ))}

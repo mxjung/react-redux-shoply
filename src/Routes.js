@@ -15,9 +15,7 @@ function Routes() {
         <Route exact path="/">
           <HomePage />
         </Route>
-
       </Switch>
-
     </div>
   );
 }
